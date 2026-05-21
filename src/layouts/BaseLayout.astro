@@ -26,6 +26,14 @@ const {
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap"
     />
     <title>{title}</title>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SB8ZV864TM" is:inline></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-SB8ZV864TM');
+    </script>
     <script is:inline>
       window.TWEAK_DEFAULTS = { theme: 'light', fontFamily: 'IBM Plex Mono', accent: 'mint' };
     </script>
