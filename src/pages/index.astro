@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopBar from '../components/ui/TopBar.astro';
+import TweaksPanel from '../components/ui/TweaksPanel.astro';
+import Hero from '../components/sections/Hero.astro';
+import WorkContact from '../components/sections/WorkContact.astro';
+import WorkHistory from '../components/sections/WorkHistory.astro';
+import Skills from '../components/sections/Skills.astro';
+import Projects from '../components/sections/Projects.astro';
+---
+<BaseLayout title="NRMN — Norman Ramadhan">
+  <div class="wrap" id="main">
+    <TopBar />
+    <Hero />
+    <WorkContact />
+    <WorkHistory />
+    <Skills />
+    <Projects />
+    <footer>
+      <span>nrmn.xyz &nbsp;·&nbsp; built static, no analytics<span class="cursor"></span></span>
+      <span id="footerTime">may 2026</span>
+    </footer>
+  </div>
+  <TweaksPanel />
+</BaseLayout>

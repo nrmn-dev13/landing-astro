@@ -1,0 +1,95 @@
+---
+---
+<div id="preloader">
+  <div id="preloader-inner">
+    <span id="preloader-count">00</span>
+    <div id="preloader-track">
+      <div id="preloader-bar"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  #preloader.done {
+    transform: translateY(-100%);
+  }
+  #preloader-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  #preloader-count {
+    font-family: var(--font-mono);
+    font-size: clamp(56px, 12vw, 112px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+  }
+  #preloader-track {
+    width: 140px;
+    height: 1px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  #preloader-bar {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 0%;
+    background: var(--fg);
+  }
+</style>
+
+<script>
+  const overlay = document.getElementById('preloader')!;
+  const counter = document.getElementById('preloader-count')!;
+  const bar = document.getElementById('preloader-bar')!;
+
+  document.body.style.overflow = 'hidden';
+
+  const DURATION = 1600;
+  const start = performance.now();
+
+  function easeInOut(t: number) {
+    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  }
+
+  function tick(now: number) {
+    const progress = Math.min((now - start) / DURATION, 1);
+    const val = Math.round(easeInOut(progress) * 100);
+
+    counter.textContent = val < 10 ? `0${val}` : `${val}`;
+    bar.style.width = `${val}%`;
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      counter.textContent = '100';
+      bar.style.width = '100%';
+      setTimeout(() => {
+        overlay.classList.add('done');
+        overlay.addEventListener('transitionend', () => {
+          overlay.style.display = 'none';
+          document.body.style.overflow = '';
+        }, { once: true });
+      }, 180);
+    }
+  }
+
+  requestAnimationFrame(tick);
+</script>

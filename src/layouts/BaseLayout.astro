@@ -1,0 +1,150 @@
+---
+import '../styles/global.css';
+import Preloader from '../components/ui/Preloader.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'NRMN — Norman Ramadhan',
+  description = 'Frontend engineer building responsive, accessible, high-performance web apps.',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap"
+    />
+    <title>{title}</title>
+    <script is:inline>
+      window.TWEAK_DEFAULTS = { theme: 'light', fontFamily: 'IBM Plex Mono', accent: 'mint' };
+    </script>
+  </head>
+  <body data-theme="light" data-accent="mint">
+    <a href="#main" class="sr-only">Skip to content</a>
+    <Preloader />
+    <slot />
+    <script is:inline>
+    (function () {
+      const state = Object.assign({}, window.TWEAK_DEFAULTS);
+      const body = document.body;
+
+      function persist(patch) {
+        Object.assign(state, patch);
+        try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: patch }, '*'); } catch(e){}
+      }
+
+      function applyState() {
+        body.dataset.theme = state.theme;
+        body.dataset.accent = state.accent;
+        body.style.setProperty('--font-mono', '"' + state.fontFamily + '", ui-monospace, monospace');
+        syncTweakUI();
+      }
+
+      function syncTweakUI() {
+        document.querySelectorAll('#twTheme button').forEach(function(b) {
+          b.classList.toggle('sel', b.dataset.v === state.theme);
+        });
+        document.querySelectorAll('#twFont button').forEach(function(b) {
+          b.classList.toggle('sel', b.dataset.v === state.fontFamily);
+        });
+        document.querySelectorAll('#twAccent .tw-sw').forEach(function(s) {
+          s.classList.toggle('sel', s.dataset.v === state.accent);
+        });
+      }
+
+      var themeToggle = document.getElementById('themeToggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+          persist({ theme: state.theme === 'light' ? 'dark' : 'light' });
+          applyState();
+        });
+      }
+
+      var tweaksEl = document.getElementById('tweaks');
+      function toggleTweaks(forceOpen) {
+        var open = forceOpen !== undefined ? forceOpen : !tweaksEl.classList.contains('open');
+        tweaksEl.classList.toggle('open', open);
+        try {
+          window.parent.postMessage({ type: open ? '__edit_mode_available' : '__edit_mode_dismissed' }, '*');
+        } catch(e) {}
+      }
+
+      var tweaksBtn = document.getElementById('tweaksBtn');
+      if (tweaksBtn) tweaksBtn.addEventListener('click', function() { toggleTweaks(); });
+      var tweaksClose = document.getElementById('tweaksClose');
+      if (tweaksClose) tweaksClose.addEventListener('click', function() { toggleTweaks(false); });
+
+      function wireSeg(id, key) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.querySelectorAll('button').forEach(function(b) {
+          b.addEventListener('click', function() {
+            var patch = {};
+            patch[key] = b.dataset.v;
+            persist(patch);
+            applyState();
+          });
+        });
+      }
+      wireSeg('twTheme', 'theme');
+      wireSeg('twFont', 'fontFamily');
+      document.querySelectorAll('#twAccent .tw-sw').forEach(function(s) {
+        s.addEventListener('click', function() { persist({ accent: s.dataset.v }); applyState(); });
+      });
+
+      async function copyText(text, btn) {
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.classList.add('copied');
+          setTimeout(function() { btn.classList.remove('copied'); }, 1200);
+        } catch (e) {
+          var ta = document.createElement('textarea');
+          ta.value = text; document.body.appendChild(ta);
+          ta.select(); document.execCommand('copy'); ta.remove();
+          btn.classList.add('copied');
+          setTimeout(function() { btn.classList.remove('copied'); }, 1200);
+        }
+      }
+
+      var emailCopy = document.getElementById('emailCopy');
+      if (emailCopy) {
+        emailCopy.addEventListener('click', function(e) {
+          copyText('normanramadhan3@gmail.com', e.currentTarget);
+        });
+      }
+
+      window.addEventListener('keydown', function(e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 't' && !e.metaKey && !e.ctrlKey) {
+          persist({ theme: state.theme === 'light' ? 'dark' : 'light' });
+          applyState();
+        } else if (e.key === ',' && !e.metaKey && !e.ctrlKey) {
+          toggleTweaks();
+        } else if (e.key === 'Escape') {
+          toggleTweaks(false);
+        }
+      });
+
+      window.addEventListener('message', function(e) {
+        if (!e.data || typeof e.data !== 'object') return;
+        if (e.data.type === '__activate_edit_mode') toggleTweaks(true);
+        else if (e.data.type === '__deactivate_edit_mode') toggleTweaks(false);
+      });
+      try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e){}
+
+      applyState();
+    })();
+    </script>
+  </body>
+</html>
