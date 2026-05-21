@@ -1,4 +1,41 @@
 ---
+const stats = [
+  { label: 'Years shipping', num: '7+',     note: 'since Nov 2017, no gaps', accent: false },
+  { label: 'Companies',      num: '4',      note: 'SG, ID — gov & enterprise', accent: false },
+  { label: 'Tenure now',     num: '4+ yrs', note: 'Xtremax · Jan 2022',       accent: false },
+  { label: 'A11y target',    num: 'WCAG 2.1', note: 'applied consistently',   accent: true  },
+];
+
+const contacts = [
+  {
+    label: 'Email',
+    value: 'normanramadhan3@gmail.com',
+    href: 'mailto:normanramadhan3@gmail.com',
+    external: false,
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>`,
+  },
+  {
+    label: 'LinkedIn',
+    value: '/in/nrmnramadhan',
+    href: 'https://www.linkedin.com/in/nrmnramadhan/',
+    external: true,
+    icon: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v13.5H.22V8zm7.27 0h4.37v1.85h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.48 3.04 5.48 7v6.91h-4.56v-6.12c0-1.46-.03-3.34-2.04-3.34-2.04 0-2.35 1.59-2.35 3.23v6.23H7.49V8z"/></svg>`,
+  },
+  {
+    label: 'Phone',
+    value: '+62 878 219 232 21',
+    href: 'tel:+6287821923221',
+    external: false,
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.8 19.8 0 012.13 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.94.36 1.86.69 2.74a2 2 0 01-.45 2.11l-1.27 1.27a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.88.33 1.8.56 2.74.69A2 2 0 0122 16.92z"/></svg>`,
+  },
+  {
+    label: 'GitHub',
+    value: 'github.com/nrmn-dev13',
+    href: 'https://github.com/nrmn-dev13',
+    external: true,
+    icon: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.4 3.6 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.9 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .3"/></svg>`,
+  },
+];
 ---
 <section class="card-grid-2">
   <div class="card">
@@ -9,26 +46,13 @@
     </p>
 
     <div class="mini-grid">
-      <div class="mini">
-        <span class="label">Years shipping</span>
-        <div class="num">7+</div>
-        <div class="note">since Nov 2017, no gaps</div>
-      </div>
-      <div class="mini">
-        <span class="label">Companies</span>
-        <div class="num">4</div>
-        <div class="note">SG, ID — gov &amp; enterprise</div>
-      </div>
-      <div class="mini">
-        <span class="label">Tenure now</span>
-        <div class="num">4+ yrs</div>
-        <div class="note">Xtremax · Jan 2022</div>
-      </div>
-      <div class="mini accent">
-        <span class="label">A11y target</span>
-        <div class="num">WCAG 2.1</div>
-        <div class="note">scanned via Oobee</div>
-      </div>
+      {stats.map((s) => (
+        <div class={`mini${s.accent ? ' accent' : ''}`}>
+          <span class="label">{s.label}</span>
+          <div class="num">{s.num}</div>
+          <div class="note">{s.note}</div>
+        </div>
+      ))}
     </div>
   </div>
 
@@ -40,46 +64,22 @@
     </p>
 
     <div class="contact-list">
-      <a class="contact-row" href="mailto:normanramadhan3@gmail.com">
-        <span class="ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-        </span>
-        <div class="meta">
-          <span class="l">Email</span>
-          <span class="v">normanramadhan3@gmail.com</span>
-        </div>
-        <span class="arrow">↗</span>
-      </a>
-      <a class="contact-row" href="https://www.linkedin.com/in/normanramadhan" target="_blank" rel="noopener">
-        <span class="ic">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v13.5H.22V8zm7.27 0h4.37v1.85h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.48 3.04 5.48 7v6.91h-4.56v-6.12c0-1.46-.03-3.34-2.04-3.34-2.04 0-2.35 1.59-2.35 3.23v6.23H7.49V8z"/></svg>
-        </span>
-        <div class="meta">
-          <span class="l">LinkedIn</span>
-          <span class="v">/in/normanramadhan</span>
-        </div>
-        <span class="arrow">↗</span>
-      </a>
-      <a class="contact-row" href="tel:+6287821923221">
-        <span class="ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.8 19.8 0 012.13 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.94.36 1.86.69 2.74a2 2 0 01-.45 2.11l-1.27 1.27a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.88.33 1.8.56 2.74.69A2 2 0 0122 16.92z"/></svg>
-        </span>
-        <div class="meta">
-          <span class="l">Phone</span>
-          <span class="v">+62 878 219 232 21</span>
-        </div>
-        <span class="arrow">↗</span>
-      </a>
-      <a class="contact-row" href="https://github.com/nrmn" target="_blank" rel="noopener">
-        <span class="ic">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.4 3.6 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.9 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .3"/></svg>
-        </span>
-        <div class="meta">
-          <span class="l">GitHub</span>
-          <span class="v">github.com/nrmn</span>
-        </div>
-        <span class="arrow">↗</span>
-      </a>
+      {contacts.map((c) => (
+        <a
+          class="contact-row"
+          href={c.href}
+          target={c.external ? '_blank' : undefined}
+          rel={c.external ? 'noopener noreferrer' : undefined}
+          aria-label={c.external ? `${c.label}: ${c.value} (opens in new tab)` : `${c.label}: ${c.value}`}
+        >
+          <span class="ic" aria-hidden="true" set:html={c.icon} />
+          <div class="meta" aria-hidden="true">
+            <span class="l">{c.label}</span>
+            <span class="v">{c.value}</span>
+          </div>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
     </div>
   </div>
 </section>

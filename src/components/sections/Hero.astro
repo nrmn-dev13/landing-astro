@@ -1,4 +1,10 @@
 ---
+const stats = [
+  { value: '7+ yrs',   label: 'experience', accent: false },
+  { value: 'Bogor, ID', label: 'UTC+7',      accent: false },
+  { value: 'Open',      label: 'to work',    accent: true  },
+  { value: 'Xtremax',   label: 'currently',  accent: false },
+];
 ---
 <section class="hero">
   <h1 class="h-display">Build with care.</h1>
@@ -11,9 +17,11 @@
   </p>
 
   <div class="stats">
-    <div class="stat"><span class="v">7+ yrs</span><span class="k">experience</span></div>
-    <div class="stat"><span class="v">Bogor, ID</span><span class="k">UTC+7</span></div>
-    <div class="stat accent"><span class="v">Open</span><span class="k">to work</span></div>
-    <div class="stat"><span class="v">Xtremax</span><span class="k">currently</span></div>
+    {stats.map((s) => (
+      <div class={`stat${s.accent ? ' accent' : ''}`}>
+        <span class="v">{s.value}</span>
+        <span class="k">{s.label}</span>
+      </div>
+    ))}
   </div>
 </section>

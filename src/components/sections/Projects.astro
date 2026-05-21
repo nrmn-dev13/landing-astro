@@ -1,88 +1,102 @@
 ---
+const projects = [
+  {
+    title: 'Personal Website',
+    description: 'My minimalist personal website using Vite, React Three Fiber, Tailwind, and Framer Motion.',
+    tech: ['HTML', 'CSS', 'Javascript', 'React', 'R3F', 'Framer Motion', 'Vite'],
+    link: 'https://nrmn.xyz/',
+    type: 'Experiment',
+  },
+  {
+    title: 'Venuerific',
+    description: 'Revamp for V.2 and create new feature to improve accessibility and user experience.',
+    tech: ['HTML', 'CSS', 'Javascript'],
+    link: 'https://www.venuerific.com',
+    type: 'Works',
+  },
+  {
+    title: 'Klik Kapal Indonesia',
+    description: 'Transform from design into web page and ensure responsive for desktop and mobile device.',
+    tech: ['HTML', 'CSS', 'Javascript'],
+    link: null,
+    type: 'Works',
+  },
+  {
+    title: 'Three.js Ragging Sea',
+    description: 'Implement 3D model and create wave using shaders.',
+    tech: ['HTML', 'CSS', 'Javascript', 'Three.js', 'Webpack'],
+    link: 'https://nrmn-dev13.github.io/ragging_sea/',
+    type: 'Experiment',
+  },
+  {
+    title: 'Neo Brutalism Ecommerce',
+    description: 'Implement Neo Brutalism style design system into a fully functional e-commerce UI.',
+    tech: ['Next.js', 'Tailwind', 'Shadcn UI'],
+    link: 'https://neo-brutalism-ecommerce.vercel.app/',
+    type: 'Experiment',
+  },
+];
 ---
 <section>
   <div class="card">
     <h3 class="card-title">Selected work</h3>
     <p class="card-sub">
-      Most of this lives behind enterprise firewalls — happy to walk through
-      it on a call.
+      A mix of client work and personal experiments — things built to ship or to learn.
     </p>
 
     <div class="projects">
-      <div class="proj">
-        <div class="ptop">
-          <span class="pname">DOS SingStat</span>
-          <span class="prole">Frontend Lead · Gov SG</span>
+      {projects.map((p) => (
+        <div class="proj">
+          <div class="ptop">
+            {p.link
+              ? (
+                <a
+                  class="pname pname-link"
+                  href={p.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${p.title} (opens in new tab)`}
+                >
+                  {p.title} <span aria-hidden="true">↗</span>
+                </a>
+              )
+              : <span class="pname">{p.title}</span>
+            }
+            <span class={`prole type-${p.type.toLowerCase()}`}>{p.type}</span>
+          </div>
+          <p class="pbrief">{p.description}</p>
+          <div class="stack-row">
+            {p.tech.map((t) => <span class="chip">{t}</span>)}
+          </div>
         </div>
-        <p class="pbrief">Custom Next.js CMS for Singapore's official statistics portal — drag-and-drop content widgets, millions of public users.</p>
-        <div class="stack-row">
-          <span class="chip">Next.js</span>
-          <span class="chip">TypeScript</span>
-          <span class="chip">React</span>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div class="ptop">
-          <span class="pname">CWP2 Component Library</span>
-          <span class="prole">Author / Maintainer</span>
-        </div>
-        <p class="pbrief">Internal npm-distributed UI kit, adopted across multiple live government projects.</p>
-        <div class="stack-row">
-          <span class="chip">Vue</span>
-          <span class="chip">Oruga</span>
-          <span class="chip">TypeScript</span>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div class="ptop">
-          <span class="pname">ACEAS</span>
-          <span class="prole">Frontend Engineer · Gov SG</span>
-        </div>
-        <p class="pbrief">Feature work and REST integration with full Jest test suite for regression safety.</p>
-        <div class="stack-row">
-          <span class="chip">Vue</span>
-          <span class="chip">Jest</span>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div class="ptop">
-          <span class="pname">MOH-CAS</span>
-          <span class="prole">Frontend Engineer · Gov SG</span>
-        </div>
-        <p class="pbrief">Tech-debt reduction — surfaced code smells via SonarQube, refactored without breaking production.</p>
-        <div class="stack-row">
-          <span class="chip">Vue</span>
-          <span class="chip">TypeScript</span>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div class="ptop">
-          <span class="pname">Venuerific V.2.0</span>
-          <span class="prole">Frontend Architect</span>
-        </div>
-        <p class="pbrief">Redesign &amp; rebuild of SEA's largest venue marketplace frontend.</p>
-        <div class="stack-row">
-          <span class="chip">JavaScript</span>
-          <span class="chip">Webpack</span>
-          <span class="chip">Bootstrap</span>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div class="ptop">
-          <span class="pname">Education</span>
-          <span class="prole">UPI · 2010 — 2015</span>
-        </div>
-        <p class="pbrief">B.A. French Language Education, Universitas Pendidikan Indonesia.</p>
-        <div class="stack-row">
-          <span class="chip">French</span>
-          <span class="chip">Pedagogy</span>
-        </div>
-      </div>
+      ))}
     </div>
   </div>
 </section>
+
+<style>
+  .pname-link {
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    transition: color 0.15s;
+  }
+  .pname-link:hover { color: var(--accent-fg); }
+
+  .type-experiment {
+    background: var(--accent-bg);
+    color: var(--accent-fg);
+    border: 1px solid var(--accent-border);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .type-works {
+    color: var(--muted-2);
+    font-size: 12px;
+  }
+</style>

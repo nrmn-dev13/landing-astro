@@ -72,15 +72,25 @@ const {
       }
 
       var tweaksEl = document.getElementById('tweaks');
+      var tweaksBtn = document.getElementById('tweaksBtn');
+
       function toggleTweaks(forceOpen) {
-        var open = forceOpen !== undefined ? forceOpen : !tweaksEl.classList.contains('open');
-        tweaksEl.classList.toggle('open', open);
+        var open = forceOpen !== undefined ? forceOpen : tweaksEl.hasAttribute('hidden');
+        if (open) {
+          tweaksEl.removeAttribute('hidden');
+          if (tweaksBtn) tweaksBtn.setAttribute('aria-expanded', 'true');
+          var firstFocusable = tweaksEl.querySelector('button, [tabindex]');
+          if (firstFocusable) firstFocusable.focus();
+        } else {
+          tweaksEl.setAttribute('hidden', '');
+          if (tweaksBtn) tweaksBtn.setAttribute('aria-expanded', 'false');
+          if (tweaksBtn) tweaksBtn.focus();
+        }
         try {
           window.parent.postMessage({ type: open ? '__edit_mode_available' : '__edit_mode_dismissed' }, '*');
         } catch(e) {}
       }
 
-      var tweaksBtn = document.getElementById('tweaksBtn');
       if (tweaksBtn) tweaksBtn.addEventListener('click', function() { toggleTweaks(); });
       var tweaksClose = document.getElementById('tweaksClose');
       if (tweaksClose) tweaksClose.addEventListener('click', function() { toggleTweaks(false); });
@@ -109,11 +119,7 @@ const {
           btn.classList.add('copied');
           setTimeout(function() { btn.classList.remove('copied'); }, 1200);
         } catch (e) {
-          var ta = document.createElement('textarea');
-          ta.value = text; document.body.appendChild(ta);
-          ta.select(); document.execCommand('copy'); ta.remove();
-          btn.classList.add('copied');
-          setTimeout(function() { btn.classList.remove('copied'); }, 1200);
+          // clipboard API unavailable (non-HTTPS context)
         }
       }
 

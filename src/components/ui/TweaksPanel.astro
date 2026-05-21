@@ -1,34 +1,55 @@
 ---
 ---
-<div class="tweaks" id="tweaks" role="dialog" aria-label="Tweaks">
+<div
+  class="tweaks"
+  id="tweaks"
+  role="dialog"
+  aria-label="Appearance tweaks"
+  aria-modal="true"
+  hidden
+>
   <div class="tw-head">
-    <span>Tweaks</span>
-    <span class="tw-close" id="tweaksClose" role="button" aria-label="Close tweaks">×</span>
+    <span id="tweaks-title">Tweaks</span>
+    <button class="tw-close" id="tweaksClose" aria-label="Close tweaks panel">×</button>
   </div>
   <div class="tw-body">
-    <div class="tw-row">
-      <label>Theme</label>
+    <div class="tw-row" role="group" aria-labelledby="label-theme">
+      <span class="tw-label" id="label-theme">Theme</span>
       <div class="tw-seg" id="twTheme">
         <button data-v="light">Light</button>
         <button data-v="dark">Dark</button>
       </div>
     </div>
-    <div class="tw-row">
-      <label>Mono font</label>
+    <div class="tw-row" role="group" aria-labelledby="label-font">
+      <span class="tw-label" id="label-font">Mono font</span>
       <div class="tw-seg" id="twFont">
         <button data-v="IBM Plex Mono">Plex</button>
         <button data-v="JetBrains Mono">JetBrains</button>
         <button data-v="Geist Mono">Geist</button>
       </div>
     </div>
-    <div class="tw-row">
-      <label>Accent</label>
+    <div class="tw-row" role="group" aria-labelledby="label-accent">
+      <span class="tw-label" id="label-accent">Accent colour</span>
       <div class="tw-swatches" id="twAccent">
-        <div class="tw-sw" data-v="mint"  style="background:#d6f5e3;border:1px solid #9ce0bd"></div>
-        <div class="tw-sw" data-v="amber" style="background:#fef3c7;border:1px solid #fbd38d"></div>
-        <div class="tw-sw" data-v="sky"   style="background:#dbeafe;border:1px solid #93c5fd"></div>
-        <div class="tw-sw" data-v="rose"  style="background:#ffe1e7;border:1px solid #fab1c0"></div>
+        <button class="tw-sw" data-v="mint"  aria-label="Accent: Mint"  style="background:#d6f5e3;border:1px solid #9ce0bd"></button>
+        <button class="tw-sw" data-v="amber" aria-label="Accent: Amber" style="background:#fef3c7;border:1px solid #fbd38d"></button>
+        <button class="tw-sw" data-v="sky"   aria-label="Accent: Sky"   style="background:#dbeafe;border:1px solid #93c5fd"></button>
+        <button class="tw-sw" data-v="rose"  aria-label="Accent: Rose"  style="background:#ffe1e7;border:1px solid #fab1c0"></button>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+  .tw-label {
+    display: block;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .tw-sw {
+    cursor: pointer;
+  }
+</style>

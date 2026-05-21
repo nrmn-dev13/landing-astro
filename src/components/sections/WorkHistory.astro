@@ -1,108 +1,62 @@
 ---
+const roles = [
+  {
+    period: 'Jan 2022 — Present',
+    company: 'Xtremax',
+    title: 'Frontend Software Developer I',
+    location: 'Bandung, ID',
+    blurb: 'Built and maintained large-scale frontend systems for government and enterprise clients in Singapore. Drove WCAG 2.1 compliance, improved LCP/CLS via lazy loading and dynamic imports, authored an internal component library, wrote Jest tests, and reduced tech debt through SonarQube audits.',
+    stack: ['Next.js', 'React', 'Vue', 'TypeScript', 'Oruga', 'Tailwind', 'Jest'],
+  },
+  {
+    period: 'Jun 2021 — Jan 2022',
+    company: 'Venuerific',
+    title: 'Frontend Developer',
+    location: 'Remote · Singapore',
+    blurb: "Maintained and evolved the production frontend of SEA's leading venue marketplace — bookings across SG, MY, HK, PH, ID. Spearheaded V.2.0 architecture and the redesigned UX, working close with backend, marketing, and design.",
+    stack: ['JavaScript', 'jQuery', 'Bootstrap', 'Webpack'],
+  },
+  {
+    period: 'Feb 2019 — May 2021',
+    company: 'Boci Studio',
+    title: 'Frontend Developer',
+    location: 'Bandung, ID',
+    blurb: 'Delivered performant, responsive frontends for websites, SaaS platforms, and mobile web apps across client projects. Shipped features from wireframe to production with backend devs and designers.',
+    stack: ['Vue.js', 'JavaScript', 'jQuery', 'Bootstrap', 'Webpack'],
+  },
+  {
+    period: 'Nov 2017 — Dec 2018',
+    company: 'Wiki Artha Pratama',
+    title: 'Frontend Developer',
+    location: 'Bandung, ID',
+    blurb: 'Built and maintained web interfaces for financial information services in the derivatives trading sector, partnering closely with backend developers and designers.',
+    stack: ['JavaScript', 'jQuery', 'Bootstrap'],
+  },
+];
 ---
 <section>
   <div class="card">
     <h3 class="card-title">Work history</h3>
     <p class="card-sub">
       Four roles across Indonesia and Singapore. From derivatives-trading
-      interfaces to a custom CMS serving millions on a national stats portal.
+      interfaces to large-scale government and enterprise web applications.
     </p>
 
-    <div class="role">
-      <div class="when">Jan 2022 — Present</div>
-      <div class="what">
-        <div class="co">
-          <span class="company">Xtremax</span>
-          <span class="role-name">Frontend Software Developer I</span>
-          <span class="loc">Bandung, ID</span>
-        </div>
-        <p class="blurb">
-          Led frontend on DOS SingStat (Gov SG) — custom Next.js CMS with
-          drag-and-drop content widgets, serving millions of public users on
-          Singapore's official statistics portal. Drove WCAG 2.1 fixes
-          flagged by Oobee, improved LCP/CLS via lazy loading and dynamic
-          imports, authored the CWP2 component library (internal npm),
-          integrated REST on ACEAS, wrote Jest tests, refactored MOH-CAS code
-          smells via SonarQube.
-        </p>
-        <div class="stack-row">
-          <span class="chip">Next.js</span>
-          <span class="chip">React</span>
-          <span class="chip">Vue</span>
-          <span class="chip">TypeScript</span>
-          <span class="chip">Oruga</span>
-          <span class="chip">Tailwind</span>
-          <span class="chip">Jest</span>
+    {roles.map((r) => (
+      <div class="role">
+        <div class="when">{r.period}</div>
+        <div class="what">
+          <div class="co">
+            <span class="company">{r.company}</span>
+            <span class="role-name">{r.title}</span>
+            <span class="loc">{r.location}</span>
+          </div>
+          <p class="blurb">{r.blurb}</p>
+          <div class="stack-row">
+            {r.stack.map((s) => <span class="chip">{s}</span>)}
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="role">
-      <div class="when">Jun 2021 — Jan 2022</div>
-      <div class="what">
-        <div class="co">
-          <span class="company">Venuerific</span>
-          <span class="role-name">Frontend Developer</span>
-          <span class="loc">Remote · Singapore</span>
-        </div>
-        <p class="blurb">
-          Maintained and evolved the production frontend of SEA's leading
-          venue marketplace — bookings across SG, MY, HK, PH, ID.
-          Spearheaded V.2.0 architecture and the redesigned UX, working
-          close with backend, marketing, and design.
-        </p>
-        <div class="stack-row">
-          <span class="chip">JavaScript</span>
-          <span class="chip">jQuery</span>
-          <span class="chip">Bootstrap</span>
-          <span class="chip">Webpack</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="role">
-      <div class="when">Feb 2019 — May 2021</div>
-      <div class="what">
-        <div class="co">
-          <span class="company">Boci Studio</span>
-          <span class="role-name">Frontend Developer</span>
-          <span class="loc">Bandung, ID</span>
-        </div>
-        <p class="blurb">
-          Delivered performant, responsive frontends for websites, SaaS
-          platforms, and mobile web apps across client projects. Shipped
-          features from wireframe to production with backend devs and
-          designers.
-        </p>
-        <div class="stack-row">
-          <span class="chip">Vue.js</span>
-          <span class="chip">JavaScript</span>
-          <span class="chip">jQuery</span>
-          <span class="chip">Bootstrap</span>
-          <span class="chip">Webpack</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="role">
-      <div class="when">Nov 2017 — Dec 2018</div>
-      <div class="what">
-        <div class="co">
-          <span class="company">Wiki Artha Pratama</span>
-          <span class="role-name">Frontend Developer</span>
-          <span class="loc">Bandung, ID</span>
-        </div>
-        <p class="blurb">
-          Built and maintained web interfaces for financial information
-          services in the derivatives trading sector, partnering closely
-          with backend developers and designers.
-        </p>
-        <div class="stack-row">
-          <span class="chip">JavaScript</span>
-          <span class="chip">jQuery</span>
-          <span class="chip">Bootstrap</span>
-        </div>
-      </div>
-    </div>
+    ))}
   </div>
 </section>

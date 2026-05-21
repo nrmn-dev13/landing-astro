@@ -1,9 +1,16 @@
 ---
 ---
-<div id="preloader">
+<div
+  id="preloader"
+  role="progressbar"
+  aria-label="Loading page"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuenow="0"
+>
   <div id="preloader-inner">
-    <span id="preloader-count">00</span>
-    <div id="preloader-track">
+    <span id="preloader-count" aria-hidden="true">00</span>
+    <div id="preloader-track" aria-hidden="true">
       <div id="preloader-bar"></div>
     </div>
   </div>
@@ -53,6 +60,12 @@
     width: 0%;
     background: var(--fg);
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    #preloader {
+      transition: none;
+    }
+  }
 </style>
 
 <script>
@@ -62,34 +75,44 @@
 
   document.body.style.overflow = 'hidden';
 
-  const DURATION = 1600;
-  const start = performance.now();
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function easeInOut(t: number) {
-    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-  }
+  if (reducedMotion) {
+    overlay.setAttribute('aria-valuenow', '100');
+    overlay.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+  } else {
+    const DURATION = 1600;
+    const start = performance.now();
 
-  function tick(now: number) {
-    const progress = Math.min((now - start) / DURATION, 1);
-    const val = Math.round(easeInOut(progress) * 100);
-
-    counter.textContent = val < 10 ? `0${val}` : `${val}`;
-    bar.style.width = `${val}%`;
-
-    if (progress < 1) {
-      requestAnimationFrame(tick);
-    } else {
-      counter.textContent = '100';
-      bar.style.width = '100%';
-      setTimeout(() => {
-        overlay.classList.add('done');
-        overlay.addEventListener('transitionend', () => {
-          overlay.style.display = 'none';
-          document.body.style.overflow = '';
-        }, { once: true });
-      }, 180);
+    function easeInOut(t: number) {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
     }
-  }
 
-  requestAnimationFrame(tick);
+    function tick(now: number) {
+      const progress = Math.min((now - start) / DURATION, 1);
+      const val = Math.round(easeInOut(progress) * 100);
+
+      counter.textContent = val < 10 ? `0${val}` : `${val}`;
+      bar.style.width = `${val}%`;
+      overlay.setAttribute('aria-valuenow', String(val));
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        counter.textContent = '100';
+        bar.style.width = '100%';
+        overlay.setAttribute('aria-valuenow', '100');
+        setTimeout(() => {
+          overlay.classList.add('done');
+          overlay.addEventListener('transitionend', () => {
+            overlay.setAttribute('hidden', '');
+            document.body.style.overflow = '';
+          }, { once: true });
+        }, 180);
+      }
+    }
+
+    requestAnimationFrame(tick);
+  }
 </script>
