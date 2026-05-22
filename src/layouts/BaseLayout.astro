@@ -5,27 +5,81 @@ import Preloader from '../components/ui/Preloader.astro';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
 }
 
 const {
   title = 'NRMN — Norman Ramadhan',
-  description = 'Frontend engineer building responsive, accessible, high-performance web apps.',
+  description = 'Frontend engineer with 7+ years building responsive, accessible, high-performance web apps for government and enterprise clients across Southeast Asia.',
+  image = '/og-image.png',
 } = Astro.props;
+
+const siteUrl = 'https://nrmn.xyz';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const ogImage = new URL(image, siteUrl);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Norman Ramadhan',
+  url: siteUrl,
+  jobTitle: 'Frontend Engineer',
+  description,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bogor',
+    addressCountry: 'ID',
+  },
+  knowsAbout: ['React', 'Vue', 'Next.js', 'TypeScript', 'Web Performance', 'WCAG Accessibility'],
+  sameAs: [
+    'https://github.com/normanramadhan',
+    'https://linkedin.com/in/normanramadhan',
+  ],
+};
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Primary meta -->
+    <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="Norman Ramadhan" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="Norman Ramadhan — Frontend Engineer" />
+    <meta property="og:site_name" content="NRMN" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap"
     />
-    <title>{title}</title>
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SB8ZV864TM" is:inline></script>
     <script is:inline>
