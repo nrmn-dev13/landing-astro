@@ -70,24 +70,26 @@ const jsonLd = {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    <!-- Fonts -->
+    <!-- Fonts (non-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap"
-    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
+    <script is:inline>
+      (function () {
+        var l = document.createElement('link');
+        l.rel = 'stylesheet';
+        l.href = 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap';
+        document.head.appendChild(l);
+      })();
+    </script>
 
     <!-- JSON-LD structured data -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SB8ZV864TM" is:inline></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-SB8ZV864TM');
-    </script>
     <script is:inline>
       window.TWEAK_DEFAULTS = { theme: 'light', fontFamily: 'IBM Plex Mono', accent: 'mint' };
     </script>
@@ -101,6 +103,33 @@ const jsonLd = {
       const state = Object.assign({}, window.TWEAK_DEFAULTS);
       const body = document.body;
 
+      // Track which font families have been loaded; default is pre-loaded in <head>
+      var loadedFonts = { 'IBM Plex Mono': true };
+      var fontQuery = {
+        'JetBrains Mono': 'JetBrains+Mono:wght@400;500;600;700',
+        'Geist Mono': 'Geist+Mono:wght@400;500;600;700',
+      };
+      function ensureFontLoaded(family) {
+        if (loadedFonts[family] || !fontQuery[family]) return;
+        loadedFonts[family] = true;
+        var l = document.createElement('link');
+        l.rel = 'stylesheet';
+        l.href = 'https://fonts.googleapis.com/css2?family=' + fontQuery[family] + '&display=swap';
+        document.head.appendChild(l);
+      }
+
+      // Lazy-load Google Analytics after page is fully loaded
+      window.addEventListener('load', function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', 'G-SB8ZV864TM');
+        var s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SB8ZV864TM';
+        document.head.appendChild(s);
+      });
+
       function persist(patch) {
         Object.assign(state, patch);
         try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: patch }, '*'); } catch(e){}
@@ -109,6 +138,7 @@ const jsonLd = {
       function applyState() {
         body.dataset.theme = state.theme;
         body.dataset.accent = state.accent;
+        ensureFontLoaded(state.fontFamily);
         body.style.setProperty('--font-mono', '"' + state.fontFamily + '", ui-monospace, monospace');
         syncTweakUI();
       }

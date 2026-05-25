@@ -57,8 +57,11 @@
     position: absolute;
     inset-block: 0;
     left: 0;
-    width: 0%;
+    width: 100%;
     background: var(--fg);
+    transform: scaleX(0);
+    transform-origin: left;
+    will-change: transform;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -94,14 +97,14 @@
       const val = Math.round(easeInOut(progress) * 100);
 
       counter.textContent = val < 10 ? `0${val}` : `${val}`;
-      bar.style.width = `${val}%`;
+      bar.style.transform = `scaleX(${easeInOut(progress)})`;
       overlay.setAttribute('aria-valuenow', String(val));
 
       if (progress < 1) {
         requestAnimationFrame(tick);
       } else {
         counter.textContent = '100';
-        bar.style.width = '100%';
+        bar.style.transform = 'scaleX(1)';
         overlay.setAttribute('aria-valuenow', '100');
         setTimeout(() => {
           overlay.classList.add('done');
